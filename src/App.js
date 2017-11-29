@@ -77,6 +77,7 @@ class App extends Component {
       />
       <form className="Search" onSubmit={this.addTask}>
         <Input 
+        autoFocus
         primary 
         placeholder='search / add a todo!' 
         value={searchPhrase}
