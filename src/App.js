@@ -1,18 +1,74 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Input } from 'reactbulma';
+import Header from './components/Header';
 import './App.css';
 
 class App extends Component {
+
+  // Set state for tasks
+  state = {
+    tasks: ['Do the washing', 'Walk the dog'],
+    searchPhrase: ''
+  }
+
+  handleChangeQuery = (event) => {
+    // Update state with search query
+    this.setState({
+      searchPhrase: event.target.value
+    })
+  }
+
+  // Handle the submission of a new task
+  addTask = (event) => {
+    // Prevent the browser from refreshing upon pressing button
+    event.preventDefault();
+
+    // Make copy of current tasks
+    const currentTasks = [...this.state.tasks];
+
+
+      if (this.state.searchPhrase !== '') {
+        // Add new tasks to list of tasks
+        currentTasks.push(this.state.searchPhrase);
+
+        // Update the state with the new tasks
+        this.setState({
+          tasks: currentTasks,
+          searchPhrase: ''
+        });
+      }
+
+    // Reset the search phrase to an empty string
+
+  }
+
+  // Render component
   render() {
+
+    // Destructure props
+    const {tasks, searchPhrase} = this.state
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className='App'>
+      <Header 
+      totalIncomplete={tasks.length} 
+      title='INCOMPLETE' 
+      />
+      <form onSubmit={this.addTask}>
+        <Input 
+        primary 
+        placeholder='search / add a todo!' 
+        value={searchPhrase}
+        onChange={this.handleChangeQuery}
+        />
+      </form>
+
+      {
+        tasks
+          .filter(myTask => myTask.includes(searchPhrase))
+          .map(myTask => <p>{myTask}</p>)
+      }
+
       </div>
     );
   }
