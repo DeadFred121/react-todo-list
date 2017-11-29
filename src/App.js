@@ -8,8 +8,13 @@ class App extends Component {
   // Set state for tasks
   state = {
     tasks: [
+<<<<<<< HEAD
       { id: 1, job: 'Do the washing', dateTime: "29/11/2017, 14:03:33" },
       { id: 2, job: 'Walk the dog', dateTime: "29/11/2017, 14:04:51" }
+=======
+      { job: 'Do the washing', dateTime: "12/03/2017, 2:45:00 PM" },
+      { job: 'Walk the dog', dateTime: "11/29/2017, 6:30:00 AM" }
+>>>>>>> a1215b5459db8b0ecb351f7f8728e9fb13c2a736
     ],
     searchPhrase: ''
   }
@@ -46,6 +51,18 @@ class App extends Component {
 
   }
 
+  // removeTask = (event) => {
+  //   event.preventDefault();
+
+  //   const currentTasks = [...this.state.tasks];
+
+  //   currentTasks.shift();
+
+  //   this.setState({
+  //     tasks: currentTasks
+  //   })
+  // }
+
   // Render component
   render() {
 
@@ -59,7 +76,7 @@ class App extends Component {
       totalIncomplete={tasks.length} 
       title='INCOMPLETE' 
       />
-      <form onSubmit={this.addTask}>
+      <form className="Search" onSubmit={this.addTask}>
         <Input 
         primary 
         placeholder='search / add a todo!' 

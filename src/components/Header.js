@@ -6,13 +6,13 @@ const Header = ({totalIncomplete, title}) => (
         <Level>
             <Level.Item hasTextCentered>
                 <div>
-                    <Heading>{title}</Heading>
-                    <Title>{totalIncomplete}</Title>
+                    <Heading className="text-white">{title}</Heading>
+                    <Title className="text-white">{totalIncomplete}</Title>
                 </div>
             </Level.Item>
 
         </Level>
-            <Progress warning value="37" max="100"></Progress>
+            <Progress className="Bar" warning value="37" max="100"></Progress>
     </div>
 )
 
