@@ -55,6 +55,7 @@ class App extends Component {
     return (
       <div className='App'>
       <Header 
+      className="header"
       totalIncomplete={tasks.length} 
       title='INCOMPLETE' 
       />
