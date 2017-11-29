@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input } from 'reactbulma';
+import { Input, Notification } from 'reactbulma';
 import Header from './components/Header';
 import './App.css';
 
@@ -27,9 +27,9 @@ class App extends Component {
     const currentTasks = [...this.state.tasks];
 
 
-      if (this.state.searchPhrase !== '') {
+    if (this.state.searchPhrase !== '' && !this.state.tasks.includes(this.state.searchPhrase)) {
         // Add new tasks to list of tasks
-        currentTasks.push(this.state.searchPhrase);
+        currentTasks.unshift(this.state.searchPhrase);
 
         // Update the state with the new tasks
         this.setState({
@@ -66,7 +66,7 @@ class App extends Component {
       {
         tasks
           .filter(myTask => myTask.includes(searchPhrase))
-          .map(myTask => <p>{myTask}</p>)
+          .map(myTask => <Notification warning>{myTask}</Notification>)
       }
 
       </div>
