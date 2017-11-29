@@ -51,3 +51,7 @@ body {
 .Search {
   margin: 10px 0;
 }
+
+.delete {
+  border-radius: 0;
+}

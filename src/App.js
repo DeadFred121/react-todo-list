@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
-import { Input, Notification } from 'reactbulma';
+import { Input, Notification, Delete } from 'reactbulma';
 import Header from './components/Header';
 import './App.css';
+
+// Unique key generator
+let currentKey = 2;
+const genKey = () => ++currentKey;
 
 class App extends Component {
 
   // Set state for tasks
   state = {
     tasks: [
-<<<<<<< HEAD
-      { id: 1, job: 'Do the washing', dateTime: "29/11/2017, 14:03:33" },
-      { id: 2, job: 'Walk the dog', dateTime: "29/11/2017, 14:04:51" }
-=======
-      { job: 'Do the washing', dateTime: "12/03/2017, 2:45:00 PM" },
-      { job: 'Walk the dog', dateTime: "11/29/2017, 6:30:00 AM" }
->>>>>>> a1215b5459db8b0ecb351f7f8728e9fb13c2a736
+      { key: 1, job: 'Do the washing', dateTime: "29/11/2017, 14:03:33", completed: false },
+      { key: 2, job: 'Walk the dog', dateTime: "29/11/2017, 14:04:51", completed: true }
     ],
-    searchPhrase: ''
+    searchPhrase: '',
   }
 
   handleChangeQuery = (event) => {
@@ -38,7 +37,7 @@ class App extends Component {
 
     if (this.state.searchPhrase && !this.state.tasks.filter(task => task.job === this.state.searchPhrase).length) {
        // Add new tasks to list of tasks
-      currentTasks.unshift({ job: this.state.searchPhrase, dateTime: new Date().toLocaleString()});
+      currentTasks.unshift({key: genKey(), job: this.state.searchPhrase, dateTime: new Date().toLocaleString(), completed: false});
 
         // Update the state with the new tasks
         this.setState({
@@ -46,22 +45,17 @@ class App extends Component {
           searchPhrase: ''
         });
       } 
-
-    // Reset the search phrase to an empty string
-
   }
 
-  // removeTask = (event) => {
-  //   event.preventDefault();
-
-  //   const currentTasks = [...this.state.tasks];
-
-  //   currentTasks.shift();
-
-  //   this.setState({
-  //     tasks: currentTasks
-  //   })
-  // }
+  // Toggle completed task
+  toggleComplete = (key) => {
+    const currentTasks = [...this.state.tasks];
+    const index = currentTasks.findIndex(task => task.key === key);
+    currentTasks[index].complete = !currentTasks[index].complete
+    this.setState({
+      tasks: currentTasks
+    })
+  }
 
   // Render component
   render() {
@@ -73,8 +67,8 @@ class App extends Component {
       <div className='App'>
       <Header 
       className="header"
-      totalIncomplete={tasks.length} 
-      title='INCOMPLETE' 
+      totalIncomplete={tasks.filter(task => !task.complete).length}
+      totalComplete={tasks.filter(task => task.complete).length}
       />
       <form className="Search" onSubmit={this.addTask}>
         <Input 
@@ -88,7 +82,13 @@ class App extends Component {
       {
         tasks
           .filter(myTask => myTask.job.includes(searchPhrase))
-          .map(myTask => <Notification warning>{myTask.job}<br/>{myTask.dateTime}</Notification>)
+          .map(myTask =>
+          <Notification warning={!myTask.complete} success={myTask.complete}>
+            <Delete onClick={() => this.toggleComplete(myTask.key)} />
+              {myTask.job}
+              <br/>
+              {myTask.dateTime}
+          </Notification>)
       }
 
       </div>
