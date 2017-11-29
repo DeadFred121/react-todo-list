@@ -7,7 +7,10 @@ class App extends Component {
 
   // Set state for tasks
   state = {
-    tasks: ['Do the washing', 'Walk the dog'],
+    tasks: [
+      { id: 1, job: 'Do the washing', dateTime: "29/11/2017, 14:03:33" },
+      { id: 2, job: 'Walk the dog', dateTime: "29/11/2017, 14:04:51" }
+    ],
     searchPhrase: ''
   }
 
@@ -18,6 +21,7 @@ class App extends Component {
     })
   }
 
+
   // Handle the submission of a new task
   addTask = (event) => {
     // Prevent the browser from refreshing upon pressing button
@@ -27,16 +31,16 @@ class App extends Component {
     const currentTasks = [...this.state.tasks];
 
 
-    if (this.state.searchPhrase !== '' && !this.state.tasks.includes(this.state.searchPhrase)) {
-        // Add new tasks to list of tasks
-        currentTasks.unshift(this.state.searchPhrase);
+    if (this.state.searchPhrase && !this.state.tasks.filter(task => task.job === this.state.searchPhrase).length) {
+       // Add new tasks to list of tasks
+      currentTasks.unshift({ job: this.state.searchPhrase, dateTime: new Date().toLocaleString()});
 
         // Update the state with the new tasks
         this.setState({
           tasks: currentTasks,
           searchPhrase: ''
         });
-      }
+      } 
 
     // Reset the search phrase to an empty string
 
@@ -65,8 +69,8 @@ class App extends Component {
 
       {
         tasks
-          .filter(myTask => myTask.includes(searchPhrase))
-          .map(myTask => <Notification warning>{myTask}</Notification>)
+          .filter(myTask => myTask.job.includes(searchPhrase))
+          .map(myTask => <Notification warning>{myTask.job}<br/>{myTask.dateTime}</Notification>)
       }
 
       </div>
