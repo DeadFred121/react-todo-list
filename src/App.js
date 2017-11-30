@@ -47,16 +47,40 @@ class App extends Component {
       } 
   }
 
-  // Toggle completed task
   toggleComplete = (key) => {
+    // Create a copy of the tasks Array
     const currentTasks = [...this.state.tasks];
-    const index = currentTasks.findIndex(task => task.key === key);
-    currentTasks[index].complete = !currentTasks[index].complete
+
+    // Find the index key of the task for the function
+    const index = currentTasks.findIndex(task => task.key === key)
+
+    // Each time the button is clicked, the value of 'completed' is flipped
+    currentTasks[index].completed = !currentTasks[index].completed
+
+    // Use the flipped state in the copied Array and apply it to tasks in the state
     this.setState({
       tasks: currentTasks
     })
   }
 
+  deleteTask = (key) => {
+    // Create a copy of the tasks Array
+    const currentTasks = [...this.state.tasks];
+
+    // Find the index key of the task for the function
+    const index = currentTasks.findIndex(task => task.key === key)
+
+    // If the index isn't already deleted, delete the selected index
+    if (index !== -1) {
+      currentTasks.splice(index,1);
+    }
+
+    // Use the copied Array without the task we just deleted, and update the state with it
+    this.setState({
+      tasks: currentTasks
+    })
+
+  }
   // Render component
   render() {
 
@@ -67,11 +91,12 @@ class App extends Component {
       <div className='App'>
       <Header 
       className="header"
-      totalIncomplete={tasks.filter(task => !task.complete).length}
-      totalComplete={tasks.filter(task => task.complete).length}
+      totalIncomplete={tasks.filter(task => !task.completed).length}
+      totalComplete={tasks.filter(task => task.completed).length}
       />
       <form className="Search" onSubmit={this.addTask}>
         <Input 
+        autoFocus
         primary 
         placeholder='search / add a todo!' 
         value={searchPhrase}
@@ -82,18 +107,24 @@ class App extends Component {
       {
         tasks
           .filter(myTask => myTask.job.includes(searchPhrase))
-          .map(myTask =>
-            <Notification warning={!myTask.complete} success={myTask.complete} onClick={() => this.toggleComplete(myTask.key)}>
-            <Delete />
+          .map(myTask => 
+            <Notification onClick={() => this.toggleComplete(myTask.key)} warning={!myTask.completed} success={myTask.completed}>
+              <Delete onClick={stopPropagation(() => this.deleteTask(myTask.key))} />
               {myTask.job}
-              <br/>
-              <small>{myTask.dateTime.toLocaleString()}</small>
-          </Notification>)
+              <br />
+              {myTask.dateTime}
+            </Notification>)
       }
-
       </div>
     );
   }
 }
 
 export default App;
+
+const stopPropagation = (fn) => (event) => {
+  event.stopPropagation();
+  if (fn) {
+    fn(event);
+  }
+};

@@ -52,6 +52,12 @@ body {
   margin: 10px 0;
 }
 
+.notification {
+  -webkit-user-select: none; /* Chrome/Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+}
+
 .delete {
   border-radius: 0;
 }
