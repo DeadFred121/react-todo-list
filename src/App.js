@@ -37,7 +37,7 @@ class App extends Component {
 
     if (this.state.searchPhrase && !this.state.tasks.filter(task => task.job === this.state.searchPhrase).length) {
        // Add new tasks to list of tasks
-      currentTasks.unshift({key: genKey(), job: this.state.searchPhrase, dateTime: new Date().toLocaleString(), completed: false});
+      currentTasks.unshift({key: genKey(), job: this.state.searchPhrase, dateTime: new Date(), completed: false});
 
         // Update the state with the new tasks
         this.setState({
@@ -83,11 +83,11 @@ class App extends Component {
         tasks
           .filter(myTask => myTask.job.includes(searchPhrase))
           .map(myTask =>
-          <Notification warning={!myTask.complete} success={myTask.complete}>
-            <Delete onClick={() => this.toggleComplete(myTask.key)} />
+            <Notification warning={!myTask.complete} success={myTask.complete} onClick={() => this.toggleComplete(myTask.key)}>
+            <Delete />
               {myTask.job}
               <br/>
-              {myTask.dateTime}
+              <small>{myTask.dateTime.toLocaleString()}</small>
           </Notification>)
       }
 
