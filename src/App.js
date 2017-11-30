@@ -36,7 +36,7 @@ class App extends Component {
 
     if (this.state.searchPhrase && !this.state.tasks.filter(task => task.job === this.state.searchPhrase).length) {
       // Add new tasks to list of tasks
-      currentTasks.unshift({key: genKey() , job: this.state.searchPhrase, dateTime: new Date().toLocaleString(), completed: false});
+      currentTasks.unshift({key: genKey(), job: this.state.searchPhrase, dateTime: new Date(), completed: false});
 
       // Update the state with the new tasks
       this.setState({
@@ -115,7 +115,7 @@ class App extends Component {
               <Delete onClick={stopPropagation(() => this.deleteTask(myTask.key))} />
               {myTask.job}
               <br />
-              {myTask.dateTime}
+              {myTask.dateTime.toLocaleString()}
             </Notification>)
       }
       </div>
