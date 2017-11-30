@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Input, Notification, Delete } from 'reactbulma';
 import Header from './components/Header';
 import './App.css';
@@ -11,10 +12,7 @@ class App extends Component {
 
   // Set state for tasks
   state = {
-    tasks: [
-      { key: 1, job: 'Do the washing', dateTime: "29/11/2017, 14:03:33", completed: false },
-      { key: 2, job: 'Walk the dog', dateTime: "29/11/2017, 14:04:51", completed: true }
-    ],
+    tasks: [],
     searchPhrase: '',
   }
 
@@ -36,7 +34,6 @@ class App extends Component {
 
 
     if (this.state.searchPhrase && !this.state.tasks.filter(task => task.job === this.state.searchPhrase).length) {
-<<<<<<< HEAD
        // Add new tasks to list of tasks
       currentTasks.unshift({key: genKey(), job: this.state.searchPhrase, dateTime: new Date(), completed: false});
 
@@ -46,7 +43,6 @@ class App extends Component {
           searchPhrase: ''
         });
       } 
-=======
       // Add new tasks to list of tasks
       currentTasks.unshift({key: genKey(), job: this.state.searchPhrase, dateTime: new Date(), completed: false});
 
@@ -56,14 +52,8 @@ class App extends Component {
         searchPhrase: ''
       });
     };
-<<<<<<< HEAD
 
     // Reset the search phrase to an empty string
-
->>>>>>> 6ae6721e0be2b780f65f37550143e7ea209292fc
-=======
->>>>>>> 0d9f14ca81af6803f6df977e79496624dadd0ecd
-  }
 
   toggleComplete = (key) => {
     // Create a copy of the tasks Array
@@ -136,6 +126,22 @@ class App extends Component {
       </div>
     );
   }
+
+  componentDidMount() {
+    axios.get('/api/tasks')
+    .then((response) => {
+      console.log('Response Successful!');
+      console.log(response.data);
+      this.setState({
+        tasks: response.data
+      })
+    })
+    .catch((error) => {
+      console.log('Error!');
+      console.log(error);
+    })
+  }
+
 }
 
 export default App;
