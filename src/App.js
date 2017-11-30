@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Input, Notification, Delete } from 'reactbulma';
 import Header from './components/Header';
 import './App.css';
@@ -11,10 +12,7 @@ class App extends Component {
 
   // Set state for tasks
   state = {
-    tasks: [
-      { key: 1, job: 'Do the washing', dateTime: "12/03/2017, 2:45:00 PM", completed: false },
-      { key: 2, job: 'Walk the dog', dateTime: "11/29/2017, 6:30:00 AM", completed: true }
-    ],
+    tasks: [],
     searchPhrase: ''
   }
 
@@ -116,6 +114,23 @@ class App extends Component {
       }
       </div>
     );
+  }
+
+
+  componentDidMount() {
+    axios.get('/api/tasks')
+    .then((response) => {
+      console.log('Response Successful!');
+      console.log(response.data);
+
+      this.setState({
+        tasks: response.data
+      })
+    })
+    .catch((error) => {
+      console.log('Error!');
+      console.log(error);
+    })
   }
 }
 
