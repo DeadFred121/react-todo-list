@@ -17,7 +17,7 @@ const Header = ({totalIncomplete, totalComplete}) => (
                 </div>
             </Level.Item>
         </Level>
-            <Progress className="Bar" warning value="37" max="100"></Progress>
+            <Progress className="Bar" warning value={totalComplete / (totalIncomplete + totalComplete) * 100} max="100"></Progress>
     </div>
 )
 
