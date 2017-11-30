@@ -36,6 +36,7 @@ class App extends Component {
 
 
     if (this.state.searchPhrase && !this.state.tasks.filter(task => task.job === this.state.searchPhrase).length) {
+<<<<<<< HEAD
        // Add new tasks to list of tasks
       currentTasks.unshift({key: genKey(), job: this.state.searchPhrase, dateTime: new Date(), completed: false});
 
@@ -45,6 +46,21 @@ class App extends Component {
           searchPhrase: ''
         });
       } 
+=======
+      // Add new tasks to list of tasks
+      currentTasks.unshift({key: genKey(), job: this.state.searchPhrase, dateTime: new Date(), completed: false});
+
+      // Update the state with the new tasks
+      this.setState({
+        tasks: currentTasks,
+        searchPhrase: ''
+      });
+      // Give user feedback
+    };
+
+    // Reset the search phrase to an empty string
+
+>>>>>>> 6ae6721e0be2b780f65f37550143e7ea209292fc
   }
 
   toggleComplete = (key) => {
@@ -112,7 +128,7 @@ class App extends Component {
               <Delete onClick={stopPropagation(() => this.deleteTask(myTask.key))} />
               {myTask.job}
               <br />
-              {myTask.dateTime}
+              {myTask.dateTime.toLocaleString()}
             </Notification>)
       }
       </div>
