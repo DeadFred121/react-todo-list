@@ -4,13 +4,12 @@ import { Input, Notification, Delete } from 'reactbulma';
 import Header from './components/Header';
 import './App.css';
 
-
 class App extends Component {
 
   // Set state for tasks
   state = {
     tasks: [],
-    searchPhrase: '',
+    searchPhrase: ''
   }
 
   handleChangeQuery = (event) => {
@@ -31,23 +30,20 @@ class App extends Component {
 
 
     if (this.state.searchPhrase && !this.state.tasks.filter(task => task.job === this.state.searchPhrase).length) {
-       // Add new tasks to list of tasks
-      currentTasks.unshift({key: genKey(), job: this.state.searchPhrase, dateTime: new Date(), completed: false});
-
-        // Update the state with the new tasks
-        this.setState({
-          tasks: currentTasks,
-          searchPhrase: ''
+      axios.post('/api/tasks', {
+        job: this.state.searchPhrase
+      })
+        .then((response) => {
+          console.log(response.data);
+          currentTasks.unshift(response.data);
+          this.setState({
+            tasks: currentTasks,
+            searchPhrase: ''
+          });
+        })
+        .catch(function (error) {
+          console.log(error);
         });
-      } 
-      // Add new tasks to list of tasks
-      currentTasks.unshift({key: genKey(), job: this.state.searchPhrase, dateTime: new Date(), completed: false});
-
-      // Update the state with the new tasks
-      this.setState({
-        tasks: currentTasks,
-        searchPhrase: ''
-      });
     };
 
     // Reset the search phrase to an empty string
@@ -117,7 +113,7 @@ class App extends Component {
               <Delete onClick={stopPropagation(() => this.deleteTask(myTask.key))} />
               {myTask.job}
               <br />
-              {myTask.dateTime.toLocaleString()}
+              {(new Date(myTask.dateTime)).toLocaleString()}
             </Notification>)
       }
       </div>
@@ -138,8 +134,7 @@ class App extends Component {
       console.log(error);
     })
   }
-
-}
+  
 
 export default App;
 
