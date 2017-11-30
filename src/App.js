@@ -43,11 +43,7 @@ class App extends Component {
         tasks: currentTasks,
         searchPhrase: ''
       });
-      // Give user feedback
     };
-
-    // Reset the search phrase to an empty string
-
   }
 
   toggleComplete = (key) => {
