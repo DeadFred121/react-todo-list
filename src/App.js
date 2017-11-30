@@ -4,9 +4,6 @@ import { Input, Notification, Delete } from 'reactbulma';
 import Header from './components/Header';
 import './App.css';
 
-// Unique key generator
-let currentKey = 2;
-const genKey = () => ++currentKey;
 
 class App extends Component {
 
